@@ -3,24 +3,59 @@
 <head>
   <title>Home</title>
   <link rel="stylesheet" href="style.css">
+  <style>
+    /* Extra styling for home page cards */
+    .profile-card {
+      background: rgba(255,255,255,0.15);
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0px 8px 30px rgba(0,0,0,0.3);
+      animation: fadeIn 1s ease;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .profile-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0px 15px 35px rgba(0,0,0,0.4);
+    }
+
+    .profile-card h2 {
+      color: #fff;
+      margin-bottom: 10px;
+    }
+
+    .profile-card p {
+      color: #ddd;
+      font-size: 16px;
+      margin-bottom: 20px;
+    }
+  </style>
 </head>
 <body>
-  <div class="container">
-    <h2>Welcome</h2>
-    <p id="welcomeMsg"></p>
+  <div class="container profile-card">
+    <h2 id="welcomeTitle">Welcome</h2>
+    <p id="welcomeMsg">🎉 You have successfully logged in.</p>
     <button onclick="logout()">Logout</button>
   </div>
 
   <script>
-    const userEmail = localStorage.getItem("userEmail");
-    if (!userEmail) {
+    const username = localStorage.getItem("username");
+    if (!username) {
       window.location.href = "login.html";
     } else {
-      document.getElementById("welcomeMsg").innerText = "🎉 Logged in as: " + userEmail;
+      const welcomeTitle = document.getElementById("welcomeTitle");
+      const welcomeMsg = document.getElementById("welcomeMsg");
+
+      welcomeTitle.innerText = `Welcome, ${username}!`;
+      welcomeMsg.innerText = "🎉 You are now logged in. Enjoy your dashboard!";
+
+      // Add fade-in animation
+      welcomeTitle.style.animation = "fadeIn 1s ease forwards";
+      welcomeMsg.style.animation = "fadeIn 1.5s ease forwards";
     }
 
     function logout() {
-      localStorage.removeItem("userEmail");
+      localStorage.removeItem("username");
       window.location.href = "login.html";
     }
   </script>
