@@ -1,42 +1,41 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Login</title>
+  <title>Register</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <div class="container">
-    <h2>Welcome Back 👋</h2>
-    <form id="loginForm">
+    <h2>Create Account</h2>
+    <form id="regForm">
+      <input type="text" id="username" placeholder="Username" required><br>
       <input type="email" id="email" placeholder="Email" required><br>
       <input type="password" id="password" placeholder="Password" required><br>
-      <button type="submit">Login</button>
+      <button type="submit">Register</button>
     </form>
     <p id="msg"></p>
-    <a href="register.html"><button type="button">Create Account</button></a>
+    <a href="login.html"><button type="button">Go to Login</button></a>
   </div>
 
   <script>
     const scriptURL = "https://script.google.com/macros/s/AKfycbzM4Z_CmZ7hIJcj7eo2Q04zEDkeokG22wLjEg49Tpm-KimHpBPPi3jrSW2qxWsYQVujoA/exec";
 
-    document.getElementById("loginForm").addEventListener("submit", function(e) {
+    document.getElementById("regForm").addEventListener("submit", function(e) {
       e.preventDefault();
       fetch(scriptURL, {
         method: "POST",
         body: new URLSearchParams({
-          action: "login",
+          action: "register",
+          username: document.getElementById("username").value,
           email: document.getElementById("email").value,
           password: document.getElementById("password").value
         })
       })
       .then(res => res.text())
       .then(data => {
-        if (data === "LOGIN_SUCCESS") {
-          localStorage.setItem("userEmail", document.getElementById("email").value);
-          window.location.href = "home.html";
-        } else {
-          document.getElementById("msg").innerText = "❌ Invalid credentials!";
-        }
+        document.getElementById("msg").innerText = (data === "SUCCESS") 
+          ? "✅ Registration successful!" 
+          : "❌ Error registering!";
       });
     });
   </script>
