@@ -14,36 +14,32 @@
   <p id="msg"></p>
 
   <script>
-    const scriptURL = "YOUR_GOOGLE_SCRIPT_URL"; // Replace with your Apps Script Web App URL
+  const scriptURL = "YOUR_GOOGLE_SCRIPT_URL"; // Replace with your Apps Script Web App URL
 
-    document.getElementById("loginForm").addEventListener("submit", function(e) {
-      e.preventDefault();
-      fetch(scriptURL, {
-        method: "POST",
-        body: new URLSearchParams({
-          action: "login",
-          email: document.getElementById("email").value,
-          password: document.getElementById("password").value
-        })
+  document.getElementById("loginForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+    fetch(scriptURL, {
+      method: "POST",
+      body: new URLSearchParams({
+        action: "login",
+        email: document.getElementById("email").value,
+        password: document.getElementById("password").value
       })
-      .then(res => res.text())
-      .then(data => {
-        document.getElementById("msg").innerText = 
-          (data === "LOGIN_SUCCESS") ? "Login successful!" : "Invalid credentials!";
-      });
+    })
+    .then(res => res.text())
+    .then(data => {
+      if (data === "LOGIN_SUCCESS") {
+        // Save user session (just email here for demo)
+        localStorage.setItem("userEmail", document.getElementById("email").value);
+
+        // Redirect to home page
+        window.location.href = "home.html";
+      } else {
+        document.getElementById("msg").innerText = "Invalid credentials!";
+      }
     });
-.then(data => {
-  if (data === "LOGIN_SUCCESS") {
-    // Save user session (just email here for demo)
-    localStorage.setItem("userEmail", document.getElementById("email").value);
+  });
+</script>
 
-    // Redirect to home page
-    window.location.href = "home.html";
-  } else {
-    document.getElementById("msg").innerText = "Invalid credentials!";
-  }
-});
-
-  </script>
 </body>
 </html>
